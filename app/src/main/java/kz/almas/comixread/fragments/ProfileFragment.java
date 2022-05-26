@@ -17,16 +17,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import kz.almas.comixread.R;
 
 
 public class ProfileFragment extends Fragment {
+
+    private DatabaseReference DB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // присваивание бд (Firebase) к переменной
+        DB = FirebaseDatabase.getInstance().getReference();
+
         // обработка нажатия на аватар
         CardView changeAvatar = view.findViewById(R.id.defaultAvatar_cardView);
         changeAvatar.setOnClickListener(new View.OnClickListener() {

@@ -4,8 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/activity_welcome.xml" value="0.2" />
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/fragment_about.xml" value="0.25" />
-        <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/fragment_catalog.xml" value="0.25" />
+        <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/fragment_catalog.xml" value="0.152" />
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/fragment_profile.xml" value="0.536" />
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/fragment_search.xml" value="0.25" />
