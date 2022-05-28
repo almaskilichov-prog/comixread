@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".fragments.MyProfileFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/defaultAvatar_cardView"
@@ -19,7 +19,7 @@
             android:id="@+id/defaultAvatar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_default_avatar" />
+            android:background="@drawable/ic_default_avatar" />
 
     </androidx.cardview.widget.CardView>
 

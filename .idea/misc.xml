@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/drawable/custom_button.xml" value="0.156" />
+        <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/drawable/custom_input.xml" value="0.156" />
+        <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/activity_authorization.xml" value="0.536" />
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/activity_sign_in.xml" value="0.20512820512820512" />
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/activity_welcome.xml" value="0.2" />
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/fragment_about.xml" value="0.25" />
         <entry key="..\:/JavaProjects/AndroidSamsungCampus/comixread/app/src/main/res/layout/fragment_catalog.xml" value="0.152" />

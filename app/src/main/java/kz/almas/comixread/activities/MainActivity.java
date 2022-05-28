@@ -1,4 +1,4 @@
-package kz.almas.comixread;
+package kz.almas.comixread.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,10 +7,11 @@ import android.os.Bundle;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 
+import kz.almas.comixread.R;
 import kz.almas.comixread.fragments.AboutFragment;
 import kz.almas.comixread.fragments.CatalogFragment;
 import kz.almas.comixread.fragments.HomeFragment;
-import kz.almas.comixread.fragments.ProfileFragment;
+import kz.almas.comixread.fragments.MyProfileFragment;
 import kz.almas.comixread.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getId()) {
                     case 0:
                         // Инициализация фрагмента страницы профиля
-                        fragment = new ProfileFragment();
+                        fragment = new MyProfileFragment();
                         break;
                     case 1:
                         // Инициализация фрагмента главной страницы

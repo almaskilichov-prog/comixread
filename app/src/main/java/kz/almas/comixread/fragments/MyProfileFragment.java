@@ -23,9 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import kz.almas.comixread.R;
 
 
-public class ProfileFragment extends Fragment {
+public class MyProfileFragment extends Fragment {
 
-    private DatabaseReference DB;
+    private FirebaseDatabase DB;
+    private DatabaseReference users;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,7 +35,8 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         // присваивание бд (Firebase) к переменной
-        DB = FirebaseDatabase.getInstance().getReference();
+        DB = FirebaseDatabase.getInstance();
+        users = DB.getReference().child("users");
 
         // обработка нажатия на аватар
         CardView changeAvatar = view.findViewById(R.id.defaultAvatar_cardView);
