@@ -3,6 +3,7 @@ package kz.almas.comixread.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
@@ -22,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // #5865d6
-        // #3c415e
         // Присваивание переменных
         bottomNavigation = findViewById(R.id.bottom_navigation);
+
+
 
         // Добавление пунктом меню (items)
         bottomNavigation.add(new MeowBottomNavigation.Model(0, R.drawable.ic_profile));
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         // Инициализация фрагмента страницы профиля
                         fragment = new MyProfileFragment();
+
                         break;
                     case 1:
                         // Инициализация фрагмента главной страницы

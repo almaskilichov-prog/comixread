@@ -1,16 +1,10 @@
 package kz.almas.comixread.activities;
 
-import static kz.almas.comixread.R.drawable.ic_default_avatar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,14 +19,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
 import kz.almas.comixread.R;
 import kz.almas.comixread.classes.Auth;
+import kz.almas.comixread.classes.LoadingDialog;
 import kz.almas.comixread.classes.User;
 
-public class AuthorizationActivity extends AppCompatActivity {
+public class AuthorizationActivity extends AppCompatActivity implements Serializable {
     // переменные для видимых элементов до нажатия кнопки "Далее"
     TextView username_textView;
     TextView textView2;
@@ -59,6 +53,9 @@ public class AuthorizationActivity extends AppCompatActivity {
     // стандартная аватарка
     ImageView defaultAvatar;
 
+    // Progress Bar
+    LoadingDialog loadingDialog = new LoadingDialog(AuthorizationActivity.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +64,8 @@ public class AuthorizationActivity extends AppCompatActivity {
         // Firebase
         db = FirebaseDatabase.getInstance();
         users = db.getReference().child("users");
+
+
 
         // видимые элементы до нажатия кнопки "Далее"
         username_editText = findViewById(R.id.username_editText);
@@ -88,7 +87,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.btnSignIn);
 
         // стандартная аватарка
-        defaultAvatar = findViewById(R.id.defaultAvatar);
+        defaultAvatar = findViewById(R.id.avatar);
 
 
     }
@@ -97,6 +96,9 @@ public class AuthorizationActivity extends AppCompatActivity {
         if (username_editText.getText().toString().isEmpty()) {
             username_editText.setError("Вы не ввели юзернейм!");
         } else {
+            // Запускаем прогресс бар
+            loadingDialog.startLoadingDialog();
+
             // помещаем текст из поле ввода username_editText в стринговую переменную username
             username = username_editText.getText().toString();
 
@@ -119,11 +121,13 @@ public class AuthorizationActivity extends AppCompatActivity {
                         textView4.setVisibility(View.VISIBLE);
                         password_editText.setVisibility(View.VISIBLE);
                         btnSignIn.setVisibility(View.VISIBLE);
+                        loadingDialog.dismissDialog();
                     } else {
                         password_textView.setVisibility(View.VISIBLE);
                         textView_password.setVisibility(View.VISIBLE);
                         password_editText.setVisibility(View.VISIBLE);
                         btnSignUp.setVisibility(View.VISIBLE);
+                        loadingDialog.dismissDialog();
                     }
 
                 }
@@ -136,7 +140,6 @@ public class AuthorizationActivity extends AppCompatActivity {
 
 
         }
-
     }
 
     public void btnSignUpClicked(View view) {
@@ -151,9 +154,6 @@ public class AuthorizationActivity extends AppCompatActivity {
             // создаем объект класса User
             User user = new User(key, null, username, password, null);
 
-            // всплывающее сообщение об успешной регистрации
-            Toast.makeText(this, "Вы зарегистрировались! Добро пожаловать в comixread)", Toast.LENGTH_LONG).show();
-
             // пуш юзера в Firebase
             push.setValue(user);
 
@@ -164,6 +164,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(),
                     MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("username", username);
             startActivity(intent);
         }
     }
@@ -173,7 +174,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             password_editText.setError("Вы не ввели пароль!");
         } else {
             password = password_editText.getText().toString();
-
+            loadingDialog.startLoadingDialog();
             Query query = users.orderByChild("username").equalTo(username);
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -188,6 +189,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(),
                                     MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                             flag = true;
                         }
@@ -206,5 +208,6 @@ public class AuthorizationActivity extends AppCompatActivity {
             });
         }
     }
+
 
 }

@@ -6,27 +6,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.MyProfileFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/defaultAvatar_cardView"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        app:cardCornerRadius="125dp">
 
-        <ImageView
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:scaleType="centerCrop"
-            android:id="@+id/defaultAvatar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_default_avatar" />
+            android:id="@+id/avatar"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_default_avatar"
+            android:background="@drawable/circle_shape" />
 
-    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/nicknameProfile"
-        android:text="@string/nicknameProfile"
-
         android:textSize="20sp"
         android:layout_marginStart="115dp"
         android:layout_marginTop="35dp"
