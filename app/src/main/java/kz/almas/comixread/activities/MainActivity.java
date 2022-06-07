@@ -9,13 +9,15 @@ import android.os.Bundle;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 
 import kz.almas.comixread.R;
+import kz.almas.comixread.classes.ObservableScrollView;
 import kz.almas.comixread.fragments.AboutFragment;
 import kz.almas.comixread.fragments.CatalogFragment;
 import kz.almas.comixread.fragments.HomeFragment;
 import kz.almas.comixread.fragments.MyProfileFragment;
 import kz.almas.comixread.fragments.SearchFragment;
+import kz.almas.comixread.interfaces.ScrollViewListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ScrollViewListener {
     // Инициализация переменных
     MeowBottomNavigation bottomNavigation;
 
@@ -91,5 +93,10 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.frame_layout, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+
     }
 }

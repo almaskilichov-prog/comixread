@@ -68,7 +68,7 @@ public class AuthorizationActivity extends AppCompatActivity implements Serializ
 
 
         // видимые элементы до нажатия кнопки "Далее"
-        username_editText = findViewById(R.id.username_editText);
+        username_editText = findViewById(R.id.username_editProfile_editText);
         btnNextInAuthorization = findViewById(R.id.btnNextInAuthorization);
         username_textView = findViewById(R.id.username_textView);
         textView2 = findViewById(R.id.textView2);
@@ -198,6 +198,7 @@ public class AuthorizationActivity extends AppCompatActivity implements Serializ
                         Toast.makeText(getApplicationContext(),
                                 "Вы ввели неправильный пароль!",
                                 Toast.LENGTH_LONG).show();
+                        loadingDialog.dismissDialog();
                     }
                 }
 

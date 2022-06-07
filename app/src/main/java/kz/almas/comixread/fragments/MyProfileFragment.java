@@ -11,7 +11,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -21,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,20 +31,38 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import kz.almas.comixread.R;
+import kz.almas.comixread.activities.EditProfileActivity;
 import kz.almas.comixread.classes.Auth;
-import kz.almas.comixread.classes.LoadingDialog;
+import kz.almas.comixread.classes.DataConverter;
 import kz.almas.comixread.classes.User;
+import kz.almas.comixread.database.App;
+import kz.almas.comixread.database.AppDatabase;
+import kz.almas.comixread.database.UserInfo;
+import kz.almas.comixread.database.UserInfoDao;
 
 
 public class MyProfileFragment extends Fragment {
 
+    // Firebase
     private FirebaseDatabase DB;
     private DatabaseReference users;
-    TextView nicknameProfile;
+
+    // Юзернейм
+    TextView usernameProfile;
+    String username;
+
+    // База данных
+    AppDatabase db = App.getInstance().getDatabase();
+
+    // Юзер
     User user;
+
+    // Аватарка
     ImageView avatar;
+    String avatarBase64;
 
     AlertDialog dialog;
 
@@ -56,7 +72,7 @@ public class MyProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_my_profile, container, false);
 
-        nicknameProfile = view.findViewById(R.id.nicknameProfile);
+        usernameProfile = view.findViewById(R.id.nicknameProfile);
         avatar = view.findViewById(R.id.avatar);
 
         startLoadingDialog();
@@ -66,7 +82,7 @@ public class MyProfileFragment extends Fragment {
         DB = FirebaseDatabase.getInstance();
         users = DB.getReference().child("users");
 
-        updateMyProfileInfo();
+
         // обработка нажатия на аватар
         avatar = view.findViewById(R.id.avatar);
         avatar.setOnClickListener(new View.OnClickListener() {
@@ -104,14 +120,30 @@ public class MyProfileFragment extends Fragment {
         editProfile_cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment editProfileFragment = new EditProfileFragment();
-                loadFragment(editProfileFragment);
+                Intent intent = new Intent(getContext(), EditProfileActivity.class);
+                startActivity(intent);
             }
         });
 
+        updateMyProfileInfo();
+
+//        if (db.userInfoDao().getById(1) == null) {
+//            startLoadingDialog();
+//            updateMyProfileInfo();
+//        } else {
+//            usernameProfile.setText(db.userInfoDao().getById(1).username);
+//            user.setId(db.userInfoDao().getById(1).key);
+//            user.setPassword(db.userInfoDao().getById(1).password);
+//            if (db.userInfoDao().getById(1).avatarBase64 != null) {
+//                user.setAvatarBase64(db.userInfoDao().getById(1).avatarBase64);
+//                getAvatar();
+//            }
+//
+//        }
+
         return view;
 
-        // проверка на аватар
+
 
 
 
@@ -153,15 +185,25 @@ public class MyProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot data : snapshot.getChildren()) {
                     user = data.getValue(User.class);
+
+//                    UserInfo userInfo = new UserInfo();
+
                     // проверка на аватарку
                     if (user.getAvatarBase64() != null) {
-                        byte[] decodedString = Base64.decode(user.getAvatarBase64(), Base64.DEFAULT);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                        avatar.setImageBitmap(bitmap);
-
+                        getAvatar();
+//                        userInfo.avatarBase64 = user.getAvatarBase64();
                     }
-                    nicknameProfile.setText(user.getUsername());
+
+                    usernameProfile.setText(user.getUsername());
                     dialog.dismiss();
+//                    userInfo.id = 1L;
+//                    userInfo.key = user.getId();
+//                    userInfo.username = user.getUsername();
+//                    userInfo.password = user.getPassword();
+
+
+//                    db.userInfoDao().insert(userInfo);
+
                 }
             }
 
@@ -173,13 +215,12 @@ public class MyProfileFragment extends Fragment {
     }
 
     private void saveAvatarToFB(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        byte[] byteArray = DataConverter.convertImageToByteArray(bitmap);
         String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
         user.setAvatarBase64(encoded);
         users.child(user.getId()).child("avatarBase64").setValue(encoded);
+//        db.userInfoDao().updateAvatarBase64ByIdList(Arrays.asList(1L), byteArray);
     }
 
     public void startLoadingDialog() {
@@ -193,4 +234,9 @@ public class MyProfileFragment extends Fragment {
         dialog.show();
     }
 
+    public void getAvatar() {
+        byte[] decodedString = Base64.decode(user.getAvatarBase64(), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        avatar.setImageBitmap(bitmap);
+    }
 }
